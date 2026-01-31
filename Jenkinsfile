@@ -32,6 +32,12 @@ pipeline {
       }
       // post build
       post {
+        always {
+          // Publishing the JUnit test results
+          junit '**/target/surefire-reports/*.xml'
+        }
+      }
+    }
     
     stage('Docker Build') {
       steps {
@@ -47,12 +53,6 @@ pipeline {
         sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
         sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
         sh "docker push ${DOCKER_IMAGE_NAME}:latest"
-      }
-    }
-        always {
-          // Publishing the JUnit test results
-          junit '**/target/surefire-reports/*.xml'
-        }
       }
     }
   }
