@@ -5,6 +5,7 @@ pipeline {
     DOCKER_IMAGE_NAME = 'prateekkumaryadav/scientific-calculator'
     DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
     DOCKER_HUB_CREDS = credentials('dockerhub-credentials')
+    PATH = "/usr/local/bin:${env.PATH}"
   }
   
   tools {
