@@ -43,7 +43,9 @@ pipeline {
     stage('Docker Build') {
       steps {
         // Build Docker image
-        sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+        // sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+         // Build Docker image for linux/amd64 platform (cross-platform compatibility)
+        sh "docker build --platform linux/amd64 -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
         sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_IMAGE_NAME}:latest"
       }
     }
@@ -53,7 +55,7 @@ pipeline {
         // Log in to Docker Hub and push the image
         sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
         sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-        sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+        // sh "docker push ${DOCKER_IMAGE_NAME}:latest"
       }
     }
   }
