@@ -4,11 +4,11 @@ import java.util.*;
 //import java.util.Scanner;
 //import java.util.InputMismatchException;
 
-public class Main {
+public class ScientificCalculator {
     private Scanner scanner;
 
     // constructor
-    public Main() {
+    public ScientificCalculator() {
         scanner = new Scanner(System.in);
     }
 
@@ -165,6 +165,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new Main().run();
+        new ScientificCalculator().run();
     }
 }
