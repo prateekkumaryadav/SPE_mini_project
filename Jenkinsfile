@@ -6,12 +6,26 @@ pipeline {
         git(url: 'https://github.com/prateekkumaryadav/SPE_mini_project', branch: 'main')
       }
     }
-
-    stage('listing all the files') {
+    
+    stage('Build') {
       steps {
-        sh 'ls -la'
+        // Build with Maven
+        sh 'mvn clean package'
       }
     }
 
+    stage('Test') {
+      steps {
+        // Run tests using Maven
+        sh 'mvn test'
+      }
+      // post build
+      post {
+        always {
+          // Publishing the JUnit test results
+          junit '**/target/surefire-reports/*.xml'
+        }
+      }
+    }
   }
 }
