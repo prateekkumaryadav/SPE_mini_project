@@ -13,20 +13,20 @@ pipeline {
   }
   
   stages {
-    stage('initialization') {
+    stage('Github Initialization') {
       steps {
         git(url: 'https://github.com/prateekkumaryadav/SPE_mini_project', branch: 'main')
       }
     }
     
-    stage('Build') {
+    stage('Building Calculator Program') {
       steps {
         // Build with Maven
         sh 'mvn clean package'
       }
     }
 
-    stage('Test') {
+    stage('Maven Testing(JUnit)') {
       steps {
         // Run tests using Maven
         sh 'mvn test'
@@ -40,7 +40,7 @@ pipeline {
       }
     }
     
-    stage('Docker Build') {
+    stage('Building Docker Image') {
       steps {
         // Build Docker image for linux/amd64 platform (cross-platform compatibility)
         sh "docker build --platform linux/amd64 -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
@@ -48,7 +48,7 @@ pipeline {
       }
     }
     
-    stage('Docker Push') {
+    stage('Pushing Image to Docker Hub') {
       steps {
         // Log in to Docker Hub and push the image
         sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
