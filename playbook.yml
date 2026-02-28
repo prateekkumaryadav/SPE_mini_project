@@ -1,0 +1,28 @@
+- name: Deploy Scientific Calculator
+  hosts: localgroup
+  # become: yes
+  vars:
+    docker_image: prateekkumaryadav/scientific-calculator:latest
+    container_name: calcuser
+
+  tasks:
+    - name: Pull the latest Docker image
+      docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+        force_source: yes
+
+    - name: Stop and remove existing container if it exists
+      docker_container:
+        name: "{{ container_name }}"
+        state: absent
+      ignore_errors: yes
+
+    - name: Run the calculator container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        state: started
+        interactive: yes
+        tty: yes
+        detach: yes
