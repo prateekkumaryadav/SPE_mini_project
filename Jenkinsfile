@@ -62,10 +62,7 @@ pipeline {
       success {
           emailext(
               subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-              body: "Build was successful!\n
-                     Project: ${env.JOB_NAME}\n
-                     Build Number: ${env.BUILD_NUMBER}\n
-                     Build URL: ${env.BUILD_URL}",
+              body: "Build was successful!\nProject: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nBuild URL: ${env.BUILD_URL}",
               to: 'prateek.student20@gmail.com',
               mimeType: 'text/plain'
           )
@@ -73,15 +70,10 @@ pipeline {
       failure {
           emailext(
               subject: "BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-              body: "Build has failed!\n
-                     Project: ${env.JOB_NAME}\n
-                     Build Number: ${env.BUILD_NUMBER}\n
-                     Build URL: ${env.BUILD_URL}\n
-                     Check the console output",
+              body: "Build has failed!\nProject: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nBuild URL: ${env.BUILD_URL}\nCheck the console output",
               to: 'prateek.student20@gmail.com',
               mimeType: 'text/plain'
           )
       }
   }
 }
-
