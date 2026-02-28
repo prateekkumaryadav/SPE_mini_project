@@ -39,23 +39,36 @@ pipeline {
         }
       }
     }
-    
-    stage('Building Docker Image') {
+
+    stage('Building Multi-Arch Docker Image') {
       steps {
-        // Build Docker image for linux/amd64 platform (cross-platform compatibility)
-        sh "docker build --platform linux/amd64 -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
-        sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_IMAGE_NAME}:latest"
+        sh """
+        docker buildx create --use --name multiarch_builder || true
+        docker buildx build \
+          --platform linux/amd64,linux/arm64 \
+          -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+          -t ${DOCKER_IMAGE_NAME}:latest \
+          --push .
+        """
       }
     }
     
-    stage('Pushing Image to Docker Hub') {
-      steps {
-        // Log in to Docker Hub and push the image
-        sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
-        sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
-        sh "docker push ${DOCKER_IMAGE_NAME}:latest"
-      }
-    }
+    // stage('Building Docker Image') {
+    //   steps {
+    //     // Build Docker image for linux/amd64 platform (cross-platform compatibility)
+    //     sh "docker build --platform linux/amd64 -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
+    //     sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_IMAGE_NAME}:latest"
+    //   }
+    // }
+    
+    // stage('Pushing Image to Docker Hub') {
+    //   steps {
+    //     // Log in to Docker Hub and push the image
+    //     sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
+    //     sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+    //     sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+    //   }
+    // }
   }
 
   post {
