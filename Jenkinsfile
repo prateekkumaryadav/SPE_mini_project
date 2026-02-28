@@ -57,4 +57,30 @@ pipeline {
       }
     }
   }
+
+  post {
+      success {
+          emailext(
+              subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+              body: "Build was successful!\n
+                     Project: ${env.JOB_NAME}\n
+                     Build Number: ${env.BUILD_NUMBER}\n
+                     Build URL: ${env.BUILD_URL}",
+              to: 'prateek.student20@gmail.com',
+              mimeType: 'text/plain'
+          )
+      }
+      failure {
+          emailext(
+              subject: "BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+              body: "Build has failed!\n
+                     Project: ${env.JOB_NAME}\n
+                     Build Number: ${env.BUILD_NUMBER}\n
+                     Build URL: ${env.BUILD_URL}\n
+                     Check the console output",
+              to: 'prateek.student20@gmail.com',
+              mimeType: 'text/plain'
+          )
+      }
+  }
 }
