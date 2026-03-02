@@ -70,10 +70,10 @@ pipeline {
     //   }
     // }
 
-    stage('Deploy') {
+    stage('Deployment') {
         steps {
             // Running the Ansible playbook to deploy the application
-            sh "ansible-playbook -i inventory.ini deploy.yml"
+            sh "/opt/homebrew/bin/ansible-playbook -i inventory.ini deploy.yml"
         }
     }
 
