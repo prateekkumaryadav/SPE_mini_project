@@ -1,6 +1,6 @@
 - name: Deploy Scientific Calculator
   hosts: localgroup
-  become: yes
+#  become: yes # our requirements doesn't need to have sudo priviledges
   vars:
     docker_image: prateekkumaryadav/scientific-calculator:latest
     container_name: calcuser
