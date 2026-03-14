@@ -1,6 +1,6 @@
 - name: Deploy Scientific Calculator
   hosts: localgroup
-  # become: yes
+  become: yes
   vars:
     docker_image: prateekkumaryadav/scientific-calculator:latest
     container_name: calcuser
